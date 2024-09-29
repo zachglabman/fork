@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Custom Fork</title>
+    <style>
+      body {
+        font-family: monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        text-align: center;
+      }
+      #ascii-fork {
+        white-space: pre;
+        font-size: 14px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <pre id="ascii-fork">
+<!-- ASCII_FORK_PLACEHOLDER -->
+        </pre>
+      <p id="repo-name"></p>
+    </div>
+    <script>
+      document.getElementById("repo-name").textContent =
+        "<!-- REPO_NAME_PLACEHOLDER -->'s fork";
+    </script>
+  </body>
+</html>

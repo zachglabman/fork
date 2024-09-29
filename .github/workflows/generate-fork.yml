@@ -1,0 +1,49 @@
+name: Generate Custom Fork
+
+on:
+  fork:
+
+jobs:
+  generate-fork:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Generate ASCII Fork
+        run: |
+          cat << EOF > generate-fork.js
+          function generateRandomAsciiFork(handleLength = 5, prongLength = 3, numProngs = 4) {
+              const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=[]{}|;:,.<>?';
+              function getRandomChar() {
+                  return characters[Math.floor(Math.random() * characters.length)];
+              }
+              function generateLine(length) {
+                  return Array(length).fill().map(getRandomChar).join('');
+              }
+              const prongs = Array(prongLength).fill().map(() => generateLine(numProngs * 2 - 1));
+              const base = [generateLine(numProngs * 2 - 1)];
+              const handle = Array(handleLength).fill().map(getRandomChar);
+              return [...prongs, ...base, ...handle].join('\n');
+          }
+          console.log(generateRandomAsciiFork());
+          EOF
+          node generate-fork.js > ascii_fork.txt
+
+      - name: Generate HTML
+        run: |
+          FORK=$(cat ascii_fork.txt)
+          REPO_NAME="${{ github.event.forkee.owner.login }}"
+          sed -e "/<!-- ASCII_FORK_PLACEHOLDER -->/r ascii_fork.txt" -e "/<!-- ASCII_FORK_PLACEHOLDER -->/d" -e "s/<!-- REPO_NAME_PLACEHOLDER -->/$REPO_NAME/" fork_template.html > index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: true
