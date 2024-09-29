@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Custom Fork</title>
+    <title>ASCII Fork Generator</title>
     <style>
       body {
-        font-family: monospace;
+        font-family: Arial, sans-serif;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -16,27 +16,106 @@
       }
       .container {
         text-align: center;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .button {
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      #fork-button {
+        background-color: #4caf50;
+      }
+      #fork-button:hover {
+        background-color: #45a049;
+      }
+      #tweet-button {
+        background-color: #1da1f2;
+        display: none;
+      }
+      #tweet-button:hover {
+        background-color: #1a91da;
       }
       #ascii-fork {
         white-space: pre;
+        font-family: monospace;
         font-size: 14px;
-        background-color: white;
+        margin-top: 20px;
+        background-color: #f9f9f9;
         padding: 20px;
         border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <pre id="ascii-fork">
-<!-- ASCII_FORK_PLACEHOLDER -->
-        </pre>
-      <p id="repo-name"></p>
+      <h1>ASCII Fork Generator</h1>
+      <button id="fork-button" class="button">Generate Fork</button>
+      <pre id="ascii-fork"></pre>
+      <button id="tweet-button" class="button">Tweet this</button>
     </div>
+
     <script>
-      document.getElementById("repo-name").textContent =
-        "<!-- REPO_NAME_PLACEHOLDER -->'s fork";
+      function generateRandomAsciiFork(
+        handleLength = 5,
+        prongLength = 3,
+        numProngs = 4
+      ) {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=[]{}|;:,.<>?";
+        function getRandomChar() {
+          return characters[Math.floor(Math.random() * characters.length)];
+        }
+        function generateLine(length, spaced = false) {
+          return Array(length)
+            .fill()
+            .map(() => (spaced ? getRandomChar() + "  " : getRandomChar()))
+            .join("")
+            .trim();
+        }
+        const prongs = Array(prongLength)
+          .fill()
+          .map(() => generateLine(numProngs, true));
+        const base = [generateLine(numProngs * 2 - 1)];
+        const handle = Array(handleLength).fill().map(getRandomChar);
+        return [...prongs, ...base, ...handle].join("\n");
+      }
+
+      document
+        .getElementById("fork-button")
+        .addEventListener("click", function () {
+          const forkDisplay = document.getElementById("ascii-fork");
+          forkDisplay.textContent = generateRandomAsciiFork();
+          forkDisplay.style.display = "block";
+          document.getElementById("tweet-button").style.display =
+            "inline-block";
+        });
+
+      document
+        .getElementById("tweet-button")
+        .addEventListener("click", function () {
+          const fork = document.getElementById("ascii-fork").textContent;
+          const tweetText = encodeURIComponent(
+            "I quit my $270k tech job and all I got was this lousy ASCII fork\n\n" +
+              fork
+          );
+          window.open(
+            `https://twitter.com/intent/tweet?text=${tweetText}`,
+            "_blank"
+          );
+        });
     </script>
   </body>
 </html>
