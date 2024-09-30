@@ -59,6 +59,17 @@
         border-radius: 5px;
         display: none;
       }
+      .attribution {
+        margin-top: 20px;
+        font-size: 14px;
+      }
+      .attribution a {
+        color: #4caf50;
+        text-decoration: none;
+      }
+      .attribution a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -67,6 +78,10 @@
       <button id="fork-button" class="button">Fork Repo</button>
       <pre id="ascii-fork"></pre>
       <button id="tweet-button" class="button">Flex on Twitter</button>
+      <p class="attribution">
+        made with love by
+        <a href="https://www.zachglabman.com/" target="_blank">zach</a>
+      </p>
     </div>
 
     <script>
@@ -110,7 +125,7 @@
         .addEventListener("click", function () {
           const fork = document.getElementById("ascii-fork").textContent;
           const tweetText = encodeURIComponent(
-            "I quit my $270k tech job and all I got was this lousy ASCII fork\n\n" +
+            "I quit my $270k tech job and all I got was this lousy ASCII fork...\n\n" +
               fork
           );
           window.open(
