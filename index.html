@@ -96,7 +96,7 @@
 
     <script>
       function generateRandomAsciiFork(
-        handleLength = 5,
+        handleLength = 4,
         prongLength = 3,
         numProngs = 4
       ) {
@@ -122,7 +122,7 @@
 
       function addSpacesToFork(forkText) {
         const lines = forkText.split("\n");
-        const handleLength = 5;
+        const handleLength = 4;
         const prongLength = 3;
         const baseLength = 7;
 
@@ -160,9 +160,9 @@
             document.getElementById("ascii-fork").textContent;
           const modifiedFork = addSpacesToFork(originalFork);
           const tweetText = encodeURIComponent(
-            "I quit my $270k tech job and all I got was this lousy ASCII fork...\n\n" +
+            "I quit my $270k tech job and all I got was this lousy ASCII fork...\n" +
               modifiedFork +
-              "\n\nhttps://fork-eta.vercel.app/"
+              "\nhttps://fork-eta.vercel.app/"
           );
           window.open(
             `https://twitter.com/intent/tweet?text=${tweetText}`,
