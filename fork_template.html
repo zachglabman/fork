@@ -110,6 +110,29 @@
         return [...prongs, ...base, ...handle].join("\n");
       }
 
+      function addSpacesToFork(forkText) {
+        const lines = forkText.split("\n");
+        const handleLength = 5;
+        const prongLength = 3;
+        const baseLength = 7;
+
+        // Modify prongs
+        const modifiedProngs = lines.slice(0, prongLength).map((line) => {
+          return line.split("").join(" ").trim();
+        });
+        // Modify base
+        const baseLine = lines[prongLength];
+        const modifiedBase = "  " + baseLine.split("").join(" ");
+
+        // Modify handle
+        const modifiedHandle = lines
+          .slice(-handleLength)
+          .map((char) => "          " + char);
+
+        // Combine modified parts
+        return [...modifiedProngs, modifiedBase, ...modifiedHandle].join("\n");
+      }
+
       document
         .getElementById("fork-button")
         .addEventListener("click", function () {
@@ -123,10 +146,12 @@
       document
         .getElementById("tweet-button")
         .addEventListener("click", function () {
-          const fork = document.getElementById("ascii-fork").textContent;
+          const originalFork =
+            document.getElementById("ascii-fork").textContent;
+          const modifiedFork = addSpacesToFork(originalFork);
           const tweetText = encodeURIComponent(
             "I quit my $270k tech job and all I got was this lousy ASCII fork...\n\n" +
-              fork
+              modifiedFork
           );
           window.open(
             `https://twitter.com/intent/tweet?text=${tweetText}`,
