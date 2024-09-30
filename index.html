@@ -147,7 +147,8 @@
           const modifiedFork = addSpacesToFork(originalFork);
           const tweetText = encodeURIComponent(
             "I quit my $270k tech job and all I got was this lousy ASCII fork...\n\n" +
-              modifiedFork
+              modifiedFork +
+              "\n\nhttps://fork-eta.vercel.app/"
           );
           window.open(
             `https://twitter.com/intent/tweet?text=${tweetText}`,
